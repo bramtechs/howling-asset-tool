@@ -2,31 +2,28 @@ import { Asset } from "src/types/Asset";
 import { AssetController } from "./AssetController";
 import { ActiveAssetView } from "src/views/ActiveAssetView";
 import { AssetOpenerDialog } from "src/views/dialogs/AssetOpenerDialog";
+import { Controller } from "./Controller";
 
-export class ActiveAssetController {
+export class ActiveAssetController
+    extends Controller<ActiveAssetView, ActiveAssetController> {
     private assetController: AssetController | undefined;
 
-    private readonly activeAssetView: ActiveAssetView;
-
-    constructor(activeAssetView: ActiveAssetView) {
-        this.activeAssetView = activeAssetView;
-        this.activeAssetView.setController(this);
-    }
-
     openAsset(filePath: string) {
-        const asset = new Asset(filePath);
-        this.assetController = new AssetController(asset);
-        this.activeAssetView.updateShownAsset(this.assetController);
+        this.view?.updateShownAsset(Asset.create(filePath));
     }
 
     openAssetDialog() {
-        const view = new AssetOpenerDialog();
-        view.setController(this);
+        const view = new AssetOpenerDialog(this);
+        console.log("Opening asset dialog");
         view.open();
     }
 
     closeAsset() {
         this.assetController = undefined;
-        this.activeAssetView.updateNoAssetSelected();
+        this.view?.updateNoAssetSelected();
+    }
+
+    get activeAsset(): AssetController | undefined {
+        return this.assetController;
     }
 }

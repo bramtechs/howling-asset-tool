@@ -1,13 +1,16 @@
 import { ActiveAssetController } from "src/controllers/ActiveAssetController";
 import { View } from "../View";
-import { QFileDialog } from "@nodegui/nodegui";
+import { QFileDialog, QLayout } from "@nodegui/nodegui";
 
-export class AssetOpenerDialog implements View<ActiveAssetController> {
-    private controller: ActiveAssetController | undefined;
+export class AssetOpenerDialog extends View<ActiveAssetController> {
     private opened: boolean = false;
 
-    setController(controller: ActiveAssetController): void {
-        this.controller = controller;
+    constructor(controller: ActiveAssetController) {
+        super(controller);
+    }
+
+    override mount(layout: QLayout): void {
+        // empty
     }
 
     open() {
@@ -18,7 +21,9 @@ export class AssetOpenerDialog implements View<ActiveAssetController> {
         this.opened = true;
         const fileDialog = new QFileDialog();
         fileDialog.setWindowTitle("Select an Image");
-        fileDialog.setNameFilter("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)");
+        fileDialog.setNameFilter(
+            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
+        );
         fileDialog.exec();
 
         const selectedFiles = fileDialog.selectedFiles();

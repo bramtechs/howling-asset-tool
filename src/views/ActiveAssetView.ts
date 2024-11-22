@@ -1,32 +1,35 @@
 import {
     Direction,
     QBoxLayout,
-    QDropEvent,
     QGroupBox,
     QLabel,
     QLayout,
     QPushButton,
-    WidgetEventTypes,
+    QWidget,
 } from "@nodegui/nodegui";
-import { Mountable } from "./Mountable";
-import { AssetController } from "src/controllers/AssetController";
 import { View } from "./View";
 import { ActiveAssetController } from "src/controllers/ActiveAssetController";
 import { QCImageLabel } from "./comps/QCImageLabel";
-import { AssetDropListener, DroppedAssetCollector } from "./misc/DroppedAssetCollector";
+import {
+    AssetDropListener,
+    DroppedAssetCollector,
+} from "./misc/DroppedAssetCollector";
+import { Asset } from "src/types/Asset";
 
-export class ActiveAssetView implements Mountable, View<ActiveAssetController>, AssetDropListener {
-    private asset: AssetController | undefined;
-    private controller: ActiveAssetController | undefined;
+export class ActiveAssetView extends View<ActiveAssetController>
+    implements AssetDropListener {
+    private asset: Asset | undefined;
 
-    private group: QGroupBox;
-    private titleLabel: QLabel;
+    private readonly group: QGroupBox;
+    private readonly titleLabel: QLabel;
 
-    private openInExplorerButton: QPushButton;
-    private openAssetButton: QPushButton;
-    private previewImage: QCImageLabel;
+    private readonly openInExplorerButton: QPushButton;
+    private readonly openAssetButton: QPushButton;
+    private readonly previewImage: QCImageLabel;
 
-    constructor() {
+    constructor(controller: ActiveAssetController) {
+        super(controller);
+
         this.group = new QGroupBox();
         const dropSender = new DroppedAssetCollector(this.group);
         dropSender.addListener(this);
@@ -37,6 +40,7 @@ export class ActiveAssetView implements Mountable, View<ActiveAssetController>, 
         this.openAssetButton.setText("Open asset");
 
         this.previewImage = new QCImageLabel();
+        this.previewImage.setFixedSize(200, 200);
 
         this.openInExplorerButton = new QPushButton();
         this.openInExplorerButton.setText("Open in explorer");
@@ -49,47 +53,34 @@ export class ActiveAssetView implements Mountable, View<ActiveAssetController>, 
         this.controller?.openAsset(urls[0]);
     }
 
-    setController(controller: ActiveAssetController): void {
-        this.controller = controller;
-    }
-
-    mount(layout: QLayout): void {
-        this.group.addEventListener(WidgetEventTypes.Drop, (e) => {
-            const dropEvent = new QDropEvent(e!);
-            const mimeData = dropEvent.mimeData();
-            console.log("dropped", dropEvent.type());
-            const urls = mimeData.urls();
-            this.controller?.openAsset(urls[0].toString());
-        });
-
+    override mount(layout: QLayout): void {
         layout.addWidget(this.group);
         const vboxLayout = new QBoxLayout(Direction.TopToBottom);
         this.group.setLayout(vboxLayout);
 
         {
-            vboxLayout.addWidget(this.titleLabel);
-        }
+            const groupWidget = new QWidget();
+            const groupLayout = new QBoxLayout(Direction.LeftToRight);
+            groupWidget.setLayout(groupLayout);
 
-        {
-            vboxLayout.addWidget(this.openInExplorerButton);
-            this.openInExplorerButton.addEventListener("clicked", () => {
-                this.asset?.openDirectoryInExplorer();
-            });
-        }
+            groupLayout.addWidget(this.titleLabel);
 
-        {
-            vboxLayout.addWidget(this.previewImage);
-        }
-
-        {
-            vboxLayout.addWidget(this.openAssetButton);
+            groupLayout.addWidget(this.openAssetButton);
             this.openAssetButton.addEventListener("clicked", () => {
                 this.controller?.openAssetDialog();
             });
+            vboxLayout.addWidget(groupWidget);
         }
+
+        vboxLayout.addWidget(this.previewImage);
+
+        vboxLayout.addWidget(this.openInExplorerButton);
+        this.openInExplorerButton.addEventListener("clicked", () => {
+            this.controller?.activeAsset?.openDirectoryInExplorer();
+        });
     }
 
-    updateShownAsset(asset: AssetController) {
+    updateShownAsset(asset: Asset) {
         this.titleLabel.setText(asset.filename);
         this.asset = asset;
         this.previewImage.setImage(asset.filePath);

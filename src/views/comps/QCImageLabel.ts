@@ -1,9 +1,10 @@
-import { QLabel, QPixmap } from "@nodegui/nodegui";
-import { loadEmbeddedPixmap } from "src/images/embedded_imgs";
+import { QLabel } from "@nodegui/nodegui";
+import { ImageHolder } from "src/images/ImageHolder";
+import { ImageLoader } from "src/images/ImageLoader";
 
 import PlaceHolderImage from "src/img/logox200.png";
 
-export class QCImageLabel extends QLabel {
+export class QCImageLabel extends QLabel implements ImageHolder {
     constructor(pathOrBase64: string = "") {
         super();
         if (pathOrBase64) {
@@ -14,14 +15,14 @@ export class QCImageLabel extends QLabel {
     }
 
     setToPlaceHolder() {
-        this.setPixmap(loadEmbeddedPixmap(PlaceHolderImage));
+        this.setPixmap(ImageLoader.ins.loadPixmap(PlaceHolderImage));
     }
 
     setImage(pathOrBase64: string) {
-        if (pathOrBase64.startsWith("data:image")) {
-            this.setPixmap(loadEmbeddedPixmap(pathOrBase64));
-        } else {
-            this.setPixmap(new QPixmap(pathOrBase64));
-        }
+        super.setPixmap(ImageLoader.ins.loadPixmap(pathOrBase64));
+    }
+
+    static create(pathOrBase64: string = ""): QCImageLabel {
+        return new QCImageLabel(pathOrBase64);
     }
 }

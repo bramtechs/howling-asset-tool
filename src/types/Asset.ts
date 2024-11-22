@@ -1,5 +1,4 @@
-import { dirname } from "path";
-import { basename } from "path";
+import { basename, dirname } from "path";
 
 export class Asset {
     filePath: string;
@@ -14,5 +13,9 @@ export class Asset {
 
     get filename(): string {
         return basename(this.filePath);
+    }
+
+    static create(filePath: string): Asset {
+        return new Asset(filePath);
     }
 }

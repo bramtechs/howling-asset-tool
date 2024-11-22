@@ -1,0 +1,3 @@
+{
+    "recommendations": ["kuscamara.remove-unused-imports", "esbenp.prettier-vscode", "sonarsource.sonarlint-vscode"]
+}
