@@ -11,10 +11,10 @@
         "sourceMap": true,
         "noLib": false,
         "experimentalDecorators": true,
-        "baseUrl": ".",
         "emitDecoratorMetadata": true,
         "outDir": "build",
-        "rootDir": "src"
+        "rootDir": "src",
+        "baseUrl": "src"
     },
     "include": ["./src/**/*.ts"]
 }

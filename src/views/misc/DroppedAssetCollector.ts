@@ -1,12 +1,12 @@
 import { QDragMoveEvent, QDropEvent, QWidget, WidgetEventTypes } from "@nodegui/nodegui";
 
-export interface AssetDropListener {
+export interface IAssetDropListener {
     onDrop(urls: string[]): void;
 }
 
 export class DroppedAssetCollector {
     private readonly widget: QWidget;
-    private readonly listeners: AssetDropListener[] = [];
+    private readonly listeners: IAssetDropListener[] = [];
 
     constructor(widget: QWidget) {
         this.widget = widget;
@@ -41,7 +41,7 @@ export class DroppedAssetCollector {
         });
     }
 
-    addListener(listener: AssetDropListener) {
+    addListener(listener: IAssetDropListener) {
         this.listeners.push(listener);
     }
 }

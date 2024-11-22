@@ -1,14 +1,29 @@
-import { Asset } from "src/types/Asset";
+import { Asset } from "types/Asset";
 import { AssetController } from "./AssetController";
-import { ActiveAssetView } from "src/views/ActiveAssetView";
-import { AssetOpenerDialog } from "src/views/dialogs/AssetOpenerDialog";
-import { Controller } from "./Controller";
+import { AssetOpenerDialog } from "views/dialogs/AssetOpenerDialog";
+import { existsSync } from "fs";
+import { ControllerException } from "controllers/exceptions/ControllerException";
 
-export class ActiveAssetController extends Controller<ActiveAssetView, ActiveAssetController> {
+export interface IActiveAssetControllerListener {
+    openedAsset(asset: Asset): void;
+    closedAsset(): void;
+}
+
+export class ActiveAssetController {
+    private readonly listeners: IActiveAssetControllerListener[] = [];
     private assetController: AssetController | undefined;
 
+    addListener(listener: IActiveAssetControllerListener) {
+        this.listeners.push(listener);
+    }
+
     openAsset(filePath: string) {
-        this.view?.updateShownAsset(Asset.create(filePath));
+        if (!existsSync(filePath)) {
+            throw new ControllerException(`File does not exist: ${filePath}`);
+        }
+        const asset = Asset.create(filePath);
+        this.assetController = new AssetController(asset);
+        this.listeners.forEach((listener) => listener.openedAsset(asset));
     }
 
     openAssetDialog() {
@@ -19,7 +34,7 @@ export class ActiveAssetController extends Controller<ActiveAssetView, ActiveAss
 
     closeAsset() {
         this.assetController = undefined;
-        this.view?.updateNoAssetSelected();
+        this.listeners.forEach((listener) => listener.closedAsset());
     }
 
     get activeAsset(): AssetController | undefined {

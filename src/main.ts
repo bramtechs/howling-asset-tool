@@ -1,9 +1,10 @@
 import { QMainWindow } from "@nodegui/nodegui";
 import { getWorkingDirectory } from "./utils";
+import { RootWindow } from "./views/RootWindow";
 
 import sourceMapSupport from "source-map-support";
-import { RootView } from "./views/RootView";
-import { RootController } from "./controllers/RootController";
+import { RootController } from "controllers/RootController";
+
 sourceMapSupport.install();
 
 function main(): void {
@@ -13,6 +14,6 @@ function main(): void {
     win.setWindowTitle("Howling Assets Tool");
 
     const rootController = new RootController();
-    const _ = new RootView(rootController);
+    new RootWindow(rootController);
 }
 main();

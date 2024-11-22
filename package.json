@@ -9,11 +9,13 @@
         "format": "prettier --write .",
         "lint": "eslint --config eslint.config.mjs",
         "lint:fix": "eslint --config eslint.config.mjs --fix",
-        "test": "no tests yet",
+        "tidy": "npm run format && npm run lint:fix",
+        "test": "echo \"no tests yet\"",
         "run": "qode dist/main.cjs"
     },
     "devDependencies": {
         "@eslint/js": "^9.15.0",
+        "@jest/globals": "^29.7.0",
         "@types/node": "^20.3.1",
         "@types/source-map-support": "^0.5.10",
         "@typescript-eslint/eslint-plugin": "^8.15.0",

@@ -1,16 +1,12 @@
-import { ActiveAssetController } from "src/controllers/ActiveAssetController";
-import { View } from "../View";
-import { QFileDialog, QLayout } from "@nodegui/nodegui";
+import { QFileDialog } from "@nodegui/nodegui";
+import { ActiveAssetController } from "controllers/ActiveAssetController";
 
-export class AssetOpenerDialog extends View<ActiveAssetController> {
+export class AssetOpenerDialog {
+    private readonly controller: ActiveAssetController;
     private opened: boolean = false;
 
     constructor(controller: ActiveAssetController) {
-        super(controller);
-    }
-
-    override mount(layout: QLayout): void {
-        // empty
+        this.controller = controller;
     }
 
     open() {

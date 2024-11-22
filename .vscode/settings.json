@@ -1,6 +1,9 @@
 {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.removeUnusedImports": true
-    }
+        "source.removeUnusedImports": "explicit"
+    },
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "files.eol": "\n",
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }
