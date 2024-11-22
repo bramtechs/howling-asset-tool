@@ -1,7 +1,7 @@
 import { QLabel, QPixmap } from "@nodegui/nodegui";
 import { loadEmbeddedPixmap } from "src/images/embedded_imgs";
 
-import PlaceHolderImage from "assets/logox200.png";
+import PlaceHolderImage from "src/img/logox200.png";
 
 export class QCImageLabel extends QLabel {
     constructor(pathOrBase64: string = "") {
