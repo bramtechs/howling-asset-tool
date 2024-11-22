@@ -1,11 +1,4 @@
-import {
-    Direction,
-    QBoxLayout,
-    QLayout,
-    QMainWindow,
-    QTabWidget,
-    QWidget,
-} from "@nodegui/nodegui";
+import { Direction, QBoxLayout, QLayout, QMainWindow, QTabWidget, QWidget } from "@nodegui/nodegui";
 import { QCTabPage } from "./comps/QCTabPage";
 import { IndividualPageView } from "./pages/IndividualPageView";
 import { RootController } from "src/controllers/RootController";
@@ -32,13 +25,8 @@ export class RootView extends View<RootController> {
 
         this.tabWidget = new QTabWidget();
         this.individualPage = new QCTabPage(Direction.LeftToRight);
-        this.individualPage.addToTabWidget(
-            this.tabWidget,
-            "Individual",
-        );
-        this.individualPageView = new IndividualPageView(
-            rootController.activeAssetController,
-        );
+        this.individualPage.addToTabWidget(this.tabWidget, "Individual");
+        this.individualPageView = new IndividualPageView(rootController.activeAssetController);
 
         this.mount(this.rootLayout);
     }

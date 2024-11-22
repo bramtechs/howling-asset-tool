@@ -1,10 +1,4 @@
-import {
-    Direction,
-    QBoxLayout,
-    QIcon,
-    QTabWidget,
-    QWidget,
-} from "@nodegui/nodegui";
+import { Direction, QBoxLayout, QIcon, QTabWidget, QWidget } from "@nodegui/nodegui";
 import { QCIcon } from "./QCIcon";
 
 export class QCTabPage extends QWidget {
@@ -16,11 +10,7 @@ export class QCTabPage extends QWidget {
         this.setLayout(this.usedLayout);
     }
 
-    addToTabWidget(
-        tabWidget: QTabWidget,
-        title: string,
-        iconPathOrBase64: string = "",
-    ): void {
+    addToTabWidget(tabWidget: QTabWidget, title: string, iconPathOrBase64: string = ""): void {
         if (iconPathOrBase64) {
             tabWidget.addTab(this, QCIcon.create(iconPathOrBase64), title);
             return;

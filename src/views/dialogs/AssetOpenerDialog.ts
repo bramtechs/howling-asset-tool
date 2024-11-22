@@ -21,9 +21,7 @@ export class AssetOpenerDialog extends View<ActiveAssetController> {
         this.opened = true;
         const fileDialog = new QFileDialog();
         fileDialog.setWindowTitle("Select an Image");
-        fileDialog.setNameFilter(
-            "Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)",
-        );
+        fileDialog.setNameFilter("Images (*.png *.jpg *.jpeg *.bmp *.gif *.webp)");
         fileDialog.exec();
 
         const selectedFiles = fileDialog.selectedFiles();

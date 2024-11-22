@@ -1,9 +1,4 @@
-import {
-    QDragMoveEvent,
-    QDropEvent,
-    QWidget,
-    WidgetEventTypes,
-} from "@nodegui/nodegui";
+import { QDragMoveEvent, QDropEvent, QWidget, WidgetEventTypes } from "@nodegui/nodegui";
 
 export interface AssetDropListener {
     onDrop(urls: string[]): void;

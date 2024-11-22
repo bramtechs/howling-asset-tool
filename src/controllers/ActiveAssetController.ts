@@ -4,8 +4,7 @@ import { ActiveAssetView } from "src/views/ActiveAssetView";
 import { AssetOpenerDialog } from "src/views/dialogs/AssetOpenerDialog";
 import { Controller } from "./Controller";
 
-export class ActiveAssetController
-    extends Controller<ActiveAssetView, ActiveAssetController> {
+export class ActiveAssetController extends Controller<ActiveAssetView, ActiveAssetController> {
     private assetController: AssetController | undefined;
 
     openAsset(filePath: string) {

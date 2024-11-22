@@ -1,23 +1,11 @@
-import {
-    Direction,
-    QBoxLayout,
-    QGroupBox,
-    QLabel,
-    QLayout,
-    QPushButton,
-    QWidget,
-} from "@nodegui/nodegui";
+import { Direction, QBoxLayout, QGroupBox, QLabel, QLayout, QPushButton, QWidget } from "@nodegui/nodegui";
 import { View } from "./View";
 import { ActiveAssetController } from "src/controllers/ActiveAssetController";
 import { QCImageLabel } from "./comps/QCImageLabel";
-import {
-    AssetDropListener,
-    DroppedAssetCollector,
-} from "./misc/DroppedAssetCollector";
+import { AssetDropListener, DroppedAssetCollector } from "./misc/DroppedAssetCollector";
 import { Asset } from "src/types/Asset";
 
-export class ActiveAssetView extends View<ActiveAssetController>
-    implements AssetDropListener {
+export class ActiveAssetView extends View<ActiveAssetController> implements AssetDropListener {
     private asset: Asset | undefined;
 
     private readonly group: QGroupBox;

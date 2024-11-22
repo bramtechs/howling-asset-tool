@@ -11,10 +11,12 @@ build({
     platform: "node",
     format: "cjs",
     external: ["@nodegui/nodegui", "nodegui-plugin-*"],
-    plugins: [inlineImage({
-        extensions: [".png", ".jpg", ".jpeg", ".gif", ".svg"],
-        limit: 8192,
-    })],
+    plugins: [
+        inlineImage({
+            extensions: [".png", ".jpg", ".jpeg", ".gif", ".svg"],
+            limit: 8192,
+        }),
+    ],
 })
     .then(() => {
         console.log("Build succeeded");
