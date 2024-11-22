@@ -1,4 +1,4 @@
-import { Asset } from "src/types/Asset";
+import { Asset } from "types/Asset";
 import openExplorer from "open-explorer-cross-platform";
 
 export class AssetController {
@@ -16,6 +16,7 @@ export class AssetController {
         return this.asset.filename;
     }
 
+    // TODO: move out implementation
     openDirectoryInExplorer(): void {
         const dir = this.asset.dirname;
         console.log(`Opening directory ${dir} in explorer`);

@@ -1,12 +1,11 @@
-import { ActiveAssetController } from "src/controllers/ActiveAssetController";
-import { View } from "../View";
 import { QFileDialog } from "@nodegui/nodegui";
+import { ActiveAssetController } from "controllers/ActiveAssetController";
 
-export class AssetOpenerDialog implements View<ActiveAssetController> {
-    private controller: ActiveAssetController | undefined;
+export class AssetOpenerDialog {
+    private readonly controller: ActiveAssetController;
     private opened: boolean = false;
 
-    setController(controller: ActiveAssetController): void {
+    constructor(controller: ActiveAssetController) {
         this.controller = controller;
     }
 
