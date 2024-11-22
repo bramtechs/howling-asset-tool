@@ -16,7 +16,6 @@ export class AssetController {
         return this.asset.filename;
     }
 
-    // TODO: move out implementation
     openDirectoryInExplorer(): void {
         const dir = this.asset.dirname;
         console.log(`Opening directory ${dir} in explorer`);
