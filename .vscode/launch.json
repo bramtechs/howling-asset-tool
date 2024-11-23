@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Qode Process",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/qode.cmd",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/qode.cmd"
+            },
+            "args": ["./dist/main.cjs"],
+            "outputCapture": "std"
+        },
+        {
+            "command": "npx webpack --devtool source-map && npx qode --inspect ./dist/index.js",
+            "name": "Debug for Cmd",
+            "request": "launch",
+            "type": "node-terminal"
+        }
+    ]
+}
