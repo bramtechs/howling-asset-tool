@@ -14,11 +14,7 @@ export class IndividualTabWidget extends QTabWidget {
         layout.addWidget(new ActiveAssetGroupBox(activeAssetController));
 
         this.toolsTabs = new QTabWidget();
-        this.toolsTabs.addTab(
-            new NinePatchTabWidget(activeAssetController),
-            new QIcon(),
-            "Nine-patch",
-        );
+        this.toolsTabs.addTab(new NinePatchTabWidget(activeAssetController), new QIcon(), "Nine-patch");
 
         layout.addWidget(this.toolsTabs);
     }

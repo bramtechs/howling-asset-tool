@@ -8,19 +8,12 @@ import {
     QPushButton,
     QWidget,
 } from "@nodegui/nodegui";
-import {
-    ActiveAssetController,
-    IActiveAssetControllerListener,
-} from "controllers/ActiveAssetController";
-import {
-    DroppedAssetCollector,
-    IAssetDropListener,
-} from "./misc/DroppedAssetCollector";
+import { ActiveAssetController, IActiveAssetControllerListener } from "controllers/ActiveAssetController";
+import { DroppedAssetCollector, IAssetDropListener } from "./misc/DroppedAssetCollector";
 import { Asset } from "types/Asset";
 import { ImageLoader } from "images/ImageLoader";
 
-export class ActiveAssetGroupBox extends QGroupBox
-    implements IAssetDropListener, IActiveAssetControllerListener {
+export class ActiveAssetGroupBox extends QGroupBox implements IAssetDropListener, IActiveAssetControllerListener {
     private asset: Asset | undefined;
 
     private readonly titleLabel: QLabel;
@@ -77,11 +70,7 @@ export class ActiveAssetGroupBox extends QGroupBox
 
     private setPreviewImage(image: QPixmap): void {
         this.previewLabel.setPixmap(
-            image.scaled(
-                this.previewLabel.width(),
-                this.previewLabel.height(),
-                AspectRatioMode.KeepAspectRatio,
-            ),
+            image.scaled(this.previewLabel.width(), this.previewLabel.height(), AspectRatioMode.KeepAspectRatio),
         );
     }
 
