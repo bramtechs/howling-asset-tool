@@ -9,7 +9,7 @@ import {
     QWidget,
 } from "@nodegui/nodegui";
 import { ActiveAssetController, IActiveAssetControllerListener } from "controllers/ActiveAssetController";
-import { IAssetDropListener, DroppedAssetCollector } from "./misc/DroppedAssetCollector";
+import { DroppedAssetCollector, IAssetDropListener } from "./misc/DroppedAssetCollector";
 import { Asset } from "types/Asset";
 import { ImageLoader } from "images/ImageLoader";
 
@@ -21,7 +21,6 @@ export class ActiveAssetGroupBox extends QGroupBox implements IAssetDropListener
     private readonly openInExplorerButton: QPushButton;
     private readonly openAssetButton: QPushButton;
     private readonly previewLabel: QLabel;
-    private readonly previewImage: QPixmap;
     private readonly controller: ActiveAssetController;
 
     constructor(controller: ActiveAssetController) {
@@ -38,10 +37,10 @@ export class ActiveAssetGroupBox extends QGroupBox implements IAssetDropListener
         this.openAssetButton.setText("Open asset");
 
         this.previewLabel = new QLabel();
-        this.previewImage = new QPixmap();
         this.previewLabel.setAutoFillBackground(true);
 
         this.openInExplorerButton = new QPushButton();
+        this.openInExplorerButton.setEnabled(false);
         this.openInExplorerButton.setText("Open in explorer");
 
         const vboxLayout = new QBoxLayout(Direction.TopToBottom);

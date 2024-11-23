@@ -1,6 +1,6 @@
 import { Asset } from "types/Asset";
 import { AssetController } from "./AssetController";
-import { AssetOpenerDialog } from "views/dialogs/AssetOpenerDialog";
+import { AssetOpenerDialog } from "widgets/dialogs/AssetOpenerDialog";
 import { existsSync } from "fs";
 import { ControllerException } from "controllers/exceptions/ControllerException";
 

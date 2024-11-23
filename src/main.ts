@@ -1,6 +1,6 @@
 import { QMainWindow } from "@nodegui/nodegui";
 import { getWorkingDirectory } from "./utils";
-import { RootWindow } from "./views/RootWindow";
+import { RootWindow } from "./widgets/RootWindow";
 
 import sourceMapSupport from "source-map-support";
 import { RootController } from "controllers/RootController";
