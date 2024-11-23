@@ -1,4 +1,4 @@
-import { Asset } from "types/Asset";
+import { Asset, NinePatchSides } from "types/Asset";
 import { AssetController } from "./AssetController";
 import { AssetOpenerDialog } from "widgets/dialogs/AssetOpenerDialog";
 import { existsSync } from "fs";
@@ -35,6 +35,20 @@ export class ActiveAssetController {
     closeAsset() {
         this.assetController = undefined;
         this.listeners.forEach((listener) => listener.closedAsset());
+    }
+
+    setNinePatchSide(side: keyof NinePatchSides, value: number) {
+        if (this.assetController) {
+            const sides = this.assetController.getNinePatchSides();
+            sides[side] = value;
+            this.assetController.setNinePatchSides(sides);
+        }
+    }
+
+    getNinePatchSides(): NinePatchSides | undefined {
+        if (this.assetController) {
+            return this.assetController.getNinePatchSides();
+        }
     }
 
     get activeAsset(): AssetController | undefined {

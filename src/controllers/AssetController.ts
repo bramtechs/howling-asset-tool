@@ -1,4 +1,4 @@
-import { Asset } from "types/Asset";
+import { Asset, NinePatchSides } from "types/Asset";
 import openExplorer from "open-explorer-cross-platform";
 
 export class AssetController {
@@ -14,6 +14,14 @@ export class AssetController {
 
     get filename(): string {
         return this.asset.filename;
+    }
+
+    getNinePatchSides(): NinePatchSides {
+        return { ...this.asset.ninePatch };
+    }
+
+    setNinePatchSides(sides: NinePatchSides): void {
+        this.asset.setNinePatchSides(sides);
     }
 
     openDirectoryInExplorer(): void {
