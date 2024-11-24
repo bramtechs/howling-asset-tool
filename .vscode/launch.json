@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Howling Asset Tool",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/qode.cmd",
+            "preLaunchTask": "npm: build",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/qode.cmd"
+            },
+            "args": ["./dist/main.cjs"],
+            "outputCapture": "std"
+        }
+    ]
+}

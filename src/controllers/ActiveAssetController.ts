@@ -1,8 +1,9 @@
-import { Asset } from "types/Asset";
+import { Asset, NinePatchSides } from "types/Asset";
 import { AssetController } from "./AssetController";
 import { AssetOpenerDialog } from "widgets/dialogs/AssetOpenerDialog";
 import { existsSync } from "fs";
 import { ControllerException } from "controllers/exceptions/ControllerException";
+import { RootController } from "controllers/RootController";
 
 export interface IActiveAssetControllerListener {
     openedAsset(asset: Asset): void;
@@ -10,11 +11,16 @@ export interface IActiveAssetControllerListener {
 }
 
 export class ActiveAssetController {
-    private readonly listeners: IActiveAssetControllerListener[] = [];
-    private assetController: AssetController | undefined;
+    private readonly _listeners: IActiveAssetControllerListener[] = [];
+    private readonly _rootController: RootController;
+    private _assetController: AssetController | undefined;
+
+    constructor(rootController: RootController) {
+        this._rootController = rootController;
+    }
 
     addListener(listener: IActiveAssetControllerListener) {
-        this.listeners.push(listener);
+        this._listeners.push(listener);
     }
 
     openAsset(filePath: string) {
@@ -22,8 +28,8 @@ export class ActiveAssetController {
             throw new ControllerException(`File does not exist: ${filePath}`);
         }
         const asset = Asset.create(filePath);
-        this.assetController = new AssetController(asset);
-        this.listeners.forEach((listener) => listener.openedAsset(asset));
+        this._assetController = new AssetController(asset, this);
+        this._listeners.forEach((listener) => listener.openedAsset(asset));
     }
 
     openAssetDialog() {
@@ -33,11 +39,35 @@ export class ActiveAssetController {
     }
 
     closeAsset() {
-        this.assetController = undefined;
-        this.listeners.forEach((listener) => listener.closedAsset());
+        this._assetController = undefined;
+        this._listeners.forEach((listener) => listener.closedAsset());
+    }
+
+    setNinePatchSide(side: keyof NinePatchSides, value: number) {
+        if (this._assetController) {
+            const sides = this._assetController.ninePatch.sides;
+            sides[side] = value;
+            this._assetController.ninePatch.setSides(sides);
+        }
+    }
+
+    getNinePatchSides(): NinePatchSides | undefined {
+        if (this._assetController) {
+            return this._assetController.ninePatch.sides;
+        }
+    }
+
+    exportNinePatch() {
+        if (this._assetController) {
+            this._assetController.ninePatch.export();
+        }
     }
 
     get activeAsset(): AssetController | undefined {
-        return this.assetController;
+        return this._assetController;
+    }
+
+    get rootController(): RootController {
+        return this._rootController;
     }
 }

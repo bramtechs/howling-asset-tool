@@ -3,6 +3,7 @@ import { IndividualTabWidget } from "./tabs/IndividualTabWidget";
 import { RootController } from "controllers/RootController";
 import { IActiveAssetControllerListener } from "controllers/ActiveAssetController";
 import { Asset } from "types/Asset";
+import { ProjectGroupBox } from "widgets/ProjectGroupBox";
 
 export class RootWindow extends QMainWindow implements IActiveAssetControllerListener {
     private readonly tabWidget: QTabWidget;
@@ -26,6 +27,10 @@ export class RootWindow extends QMainWindow implements IActiveAssetControllerLis
         this.individualTabIndex = this.tabWidget.addTab(individualPageView, new QIcon(), "Individual");
 
         rootLayout.addWidget(this.tabWidget);
+
+        const output = new ProjectGroupBox(controller);
+        rootLayout.addWidget(output);
+
         this.setMinimumSize(800, 600);
         this.show();
 
@@ -36,6 +41,7 @@ export class RootWindow extends QMainWindow implements IActiveAssetControllerLis
     openedAsset(asset: Asset): void {
         this.tabWidget.setTabIcon(this.individualTabIndex, new QIcon(asset.filePath));
     }
+
     closedAsset(): void {
         this.tabWidget.setTabIcon(this.individualTabIndex, new QIcon());
     }
