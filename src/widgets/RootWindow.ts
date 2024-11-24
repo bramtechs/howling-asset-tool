@@ -41,6 +41,7 @@ export class RootWindow extends QMainWindow implements IActiveAssetControllerLis
     openedAsset(asset: Asset): void {
         this.tabWidget.setTabIcon(this.individualTabIndex, new QIcon(asset.filePath));
     }
+
     closedAsset(): void {
         this.tabWidget.setTabIcon(this.individualTabIndex, new QIcon());
     }

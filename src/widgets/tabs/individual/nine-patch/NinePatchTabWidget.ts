@@ -7,14 +7,16 @@ import {
     QImage,
     QPainter,
     QPen,
+    QPushButton,
     QSpinBox,
     QTabWidget,
     QWidget,
     WidgetEventTypes,
 } from "@nodegui/nodegui";
 import { ActiveAssetController, IActiveAssetControllerListener } from "controllers/ActiveAssetController";
+import { IRootControllerListener } from "controllers/RootController";
 import { Asset, NinePatchSides } from "types/Asset";
-import { quickLabel } from "utils";
+import { quickButton, quickLabel } from "utils";
 
 class PreviewCanvas extends QWidget {
     private sides: NinePatchSides | undefined;
@@ -57,16 +59,18 @@ class PreviewCanvas extends QWidget {
     }
 }
 
-export class NinePatchTabWidget extends QTabWidget implements IActiveAssetControllerListener {
+export class NinePatchTabWidget extends QTabWidget implements IActiveAssetControllerListener, IRootControllerListener {
     private readonly controller: ActiveAssetController;
     private readonly previewCanvas: PreviewCanvas;
     private readonly dials: Record<string, QSpinBox> = {};
+    private readonly exportButton: QPushButton;
     private image: QImage | undefined;
 
     constructor(activeAssetController: ActiveAssetController) {
         super();
         this.controller = activeAssetController;
         this.controller.addListener(this);
+        this.controller.rootController.addListener(this);
 
         const layout = new QBoxLayout(Direction.LeftToRight);
         this.setLayout(layout);
@@ -102,6 +106,16 @@ export class NinePatchTabWidget extends QTabWidget implements IActiveAssetContro
         }
 
         layout.addWidget(groupBox);
+
+        this.exportButton = quickButton("Export", () => {
+            this.controller.exportNinePatch();
+        });
+        this.exportButton.setEnabled(false);
+        layout.addWidget(this.exportButton);
+    }
+
+    changedOutputDirectory(_: string): void {
+        this.checkExportButtonAvailability();
     }
 
     updateDials() {
@@ -128,11 +142,21 @@ export class NinePatchTabWidget extends QTabWidget implements IActiveAssetContro
         this.previewCanvas.setConfig(this.image, this.controller.getNinePatchSides());
         this.previewCanvas.show();
         this.updateDials();
+        this.checkExportButtonAvailability();
     }
 
     closedAsset(): void {
         this.image = undefined;
         this.previewCanvas.hide();
         this.updateDials();
+        this.checkExportButtonAvailability();
+    }
+
+    private get outputDirectory(): string | undefined {
+        return this.controller.rootController.outputDirectory;
+    }
+
+    private checkExportButtonAvailability() {
+        this.exportButton.setEnabled(!!this.outputDirectory && !!this.image);
     }
 }
